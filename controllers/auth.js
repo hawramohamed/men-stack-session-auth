@@ -32,5 +32,27 @@ res.send(`Thanks for signing up ${user.username}`);
   res.send("Form submission accepted!");
 });
 
+router.get("/sign-in", (req, res) => {
+  res.render("auth/sign-in.ejs");
+});
+
+router.post("/sign-in", async (req, res) => {
+    const userInDatabase = await User.findOne({ username: req.body.username });
+if (!userInDatabase) {
+  return res.send("Login failed. Please try again.");
+}
+
+const validPassword = bcrypt.compareSync(
+  req.body.password,
+  userInDatabase.password
+);
+if (!validPassword) {
+  return res.send("Login failed. Please try again.");
+}
+
+
+  res.send("Request to sign in received!");
+});
+
 
 module.exports = router;
