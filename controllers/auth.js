@@ -50,8 +50,12 @@ if (!validPassword) {
   return res.send("Login failed. Please try again.");
 }
 
+req.session.user = {
+  username: userInDatabase.username,
+  _id: userInDatabase._id
+};
 
-  res.send("Request to sign in received!");
+  res.send('/');
 });
 
 
